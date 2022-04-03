@@ -10,6 +10,7 @@ public class Player_Move : MonoBehaviour {
 	Player_Flooring floorScript;
 
 	Rigidbody rb;
+	[SerializeField] Animator anim;
  
 	Vector3 currentMoveInput;
 	[SerializeField] float moveSpeed;
@@ -18,6 +19,7 @@ public class Player_Move : MonoBehaviour {
     void Start() {
 		floorScript = GetComponent<Player_Flooring>();
         rb = GetComponent<Rigidbody>();
+		///anim = GetComponent<Animator>();
     }
 
    
@@ -28,8 +30,21 @@ public class Player_Move : MonoBehaviour {
 		//}
 
 		if (GameManager.gameState == GameManager.GameState.Playing) {
-			transform.position = transform.position + (currentMoveInput * moveSpeed * Time.deltaTime);
-			transform.LookAt(transform.position + currentMoveInput, Vector3.up);
+			if (currentMoveInput != Vector3.zero) {
+				transform.position = transform.position + (currentMoveInput * moveSpeed * Time.deltaTime);
+				//rb.AddForce(currentMoveInput * moveSpeed * Time.deltaTime, ForceMode.Impulse);
+				rb.AddForce(transform.up * rb.mass * Physics.gravity.y);
+
+				transform.LookAt(transform.position + currentMoveInput, Vector3.up);
+
+				anim.SetFloat("MoveInput", 1f);
+
+
+			}
+			else {
+				anim.SetFloat("MoveInput", 0f);
+				rb.velocity = Vector3.zero;
+			}
 		}
 
 	}
@@ -42,7 +57,11 @@ public class Player_Move : MonoBehaviour {
 		else if (col.CompareTag("DeathPit")) {
 			rb.useGravity = false;
 			rb.velocity = Vector3.zero;
+			//GetComponent<MeshRenderer>().enabled = false;
+
 			gameMan.GameOver();
+
+			gameObject.SetActive(false);
 		}
 	}
 
@@ -54,14 +73,18 @@ public class Player_Move : MonoBehaviour {
 
 
 	public void Move(InputAction.CallbackContext input) {//Vector3 input) {
-		print(input.ReadValue<Vector2>());
+		//print(input.ReadValue<Vector2>());
 
 		//if (input.performed) {
 			currentMoveInput = new Vector3(input.ReadValue<Vector2>().x, 0, input.ReadValue<Vector2>().y);
-			//rb.AddForce(currentMoveInput * moveSpeed);
-			//transform.position = transform.position + (currentMoveInput * moveSpeed * Time.deltaTime);
+		//rb.AddForce(currentMoveInput * moveSpeed);
+		//transform.position = transform.position + (currentMoveInput * moveSpeed * Time.deltaTime);
 
 		//}
+
+		if (input.canceled) {
+			currentMoveInput = Vector3.zero;
+		}
 	}
 
 

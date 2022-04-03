@@ -15,21 +15,28 @@ public class GameManager : MonoBehaviour {
 		UIMan = GetComponent<UIManager>();
 
         gameState = GameState.Started;
+		Time.timeScale = 0f;
     }
+
 
 	public void StartPlaying() {
 		gameState = GameState.Playing;
+		Time.timeScale = 1f;
 		UIMan.DisplayPlayUI();
 	}
 
 
 	public void GameOver() {
 		gameState = GameState.GameOver;
+		
 		UIMan.DisplayGameOverUI();
+
+		Time.timeScale = 0f;
 	}
 
 
 	public void QuitGame() {
+		print("Quitting game");
 		Application.Quit();
 	}
 
@@ -41,7 +48,7 @@ public class GameManager : MonoBehaviour {
    
 
     void Update() {
-        
+		
     }
 
 

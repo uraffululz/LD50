@@ -53,12 +53,13 @@
     <UnityVersion>2021.1.15f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Player_Move.cs" />
-    <Compile Include="Assets\GroundMaster.cs" />
-    <Compile Include="Assets\UIManager.cs" />
-    <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\Player_Flooring.cs" />
     <Compile Include="Assets\FloorPickupScript.cs" />
+    <Compile Include="Assets\UIManager.cs" />
+    <Compile Include="Assets\Player_Move.cs" />
+    <Compile Include="Assets\GameManager.cs" />
+    <Compile Include="Assets\GroundMaster.cs" />
+    <Compile Include="Assets\GroundPieceScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

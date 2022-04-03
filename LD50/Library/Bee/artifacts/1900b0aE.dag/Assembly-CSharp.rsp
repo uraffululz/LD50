@@ -323,6 +323,7 @@
 "Assets/FloorPickupScript.cs"
 "Assets/GameManager.cs"
 "Assets/GroundMaster.cs"
+"Assets/GroundPieceScript.cs"
 "Assets/Player_Flooring.cs"
 "Assets/Player_Move.cs"
 "Assets/UIManager.cs"

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class GroundMaster : MonoBehaviour {
  
-	[SerializeField] GameObject[] floorSpawns;
+	public GameObject[] floorSpawns;
 	[SerializeField] List<GameObject> groundPiecesActive;
 	[SerializeField] GameObject chosenGround;
 
 	[SerializeField] float groundFallDelay;
 	[SerializeField] float groundFallCurrent;
+	[SerializeField] float groundDropSpeed;
 
 	[SerializeField] GameObject floorPrefab;
 	[SerializeField] Material floorMat;
@@ -18,8 +19,11 @@ public class GroundMaster : MonoBehaviour {
 	[SerializeField] float floorSpawnTimer;
 	[SerializeField] float floorSpawnCurrent;
 
+	[SerializeField] Material activeMat;
+	[SerializeField] Material inactiveMat;
 
-    void Start() {
+
+	void Start() {
         groundFallCurrent = groundFallDelay;
 		floorSpawnCurrent = floorSpawnTimer;
     }
@@ -65,26 +69,48 @@ public class GroundMaster : MonoBehaviour {
 		Color fadedGroundColor = new Color(1, 0, 0, .5f);
 		chosenGround.GetComponent<MeshRenderer>().material.color = fadedGroundColor;
 
-		yield return new WaitForSeconds(1.5f);
+		chosenGround.transform.parent.GetComponent<GroundPieceScript>().SetToFall();
 
-		chosenGround.SetActive(false);
+		yield return new WaitForSeconds(1.2f);
+
+		chosenGround.transform.parent.GetComponent<GroundPieceScript>().EndFall();
 		groundPiecesActive.Remove(chosenGround);
 		chosenGround = null;
+	}
+
+
+	public void HighlightFloorSpawns(GameObject floor) {
+		foreach (GameObject floorSpawn in floorSpawns) {
+			MeshRenderer renderer = floorSpawn.GetComponent<MeshRenderer>();
+
+			if (floorSpawn.transform.GetChild(0).gameObject.activeInHierarchy) {
+				renderer.enabled = false;
+			}
+			else {
+				renderer.enabled = true;
+				renderer.material = inactiveMat;
+			}
+		}
+
+		if (floor != null) {
+			floor.transform.parent.GetComponent<MeshRenderer>().material = activeMat;
+		}
 	}
 
 
 	public void ReplaceFloor(GameObject floorObject) {
 		//GameObject replacedFloor = floorObject.transform.GetChild(0).gameObject;
 		floorObject.GetComponent<MeshRenderer>().material = floorMat;
-		floorObject.SetActive(true);
+		floorObject.transform.parent.GetComponent<GroundPieceScript>().ResetGround();
 		groundPiecesActive.Add(floorObject);
 	}
 
 	void SpawnFloorResource() {
-		Vector3 spawnPos = new Vector3(Random.Range(-10, 10), 20, Random.Range(-6, 10));
+		Vector3 spawnPos = new Vector3(Random.Range(-10, 10), 17, Random.Range(-6, 10));
 
 		GameObject floorPickup = Instantiate(floorPrefab, spawnPos, Quaternion.identity, floorPickupParent);
 		floorPickup.GetComponent<FloorPickupScript>().groundScript = this;
+
 		activeFloorPickups++;
 	}
 
