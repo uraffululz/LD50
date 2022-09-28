@@ -320,13 +320,13 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VSSettingsProvider.ref.dll"
-"Assets/FloorPickupScript.cs"
 "Assets/GameManager.cs"
-"Assets/GroundMaster.cs"
-"Assets/GroundPieceScript.cs"
-"Assets/Player_Flooring.cs"
-"Assets/Player_Move.cs"
-"Assets/UIManager.cs"
+"Assets/Scripts/FloorPickupScript.cs"
+"Assets/Scripts/GroundMaster.cs"
+"Assets/Scripts/GroundPieceScript.cs"
+"Assets/Scripts/Player_Flooring.cs"
+"Assets/Scripts/Player_Move.cs"
+"Assets/Scripts/UIManager.cs"
 -langversion:8.0
 
 /deterministic
